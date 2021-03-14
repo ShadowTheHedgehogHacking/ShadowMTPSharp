@@ -143,7 +143,7 @@ namespace MTPLib
             // End of filenames needs padding
             // Must pad to next group of 4-bytes.
             //
-            // If String ends on 0x6, null is on 0x7 -> then null must also be on 0x8
+            // If String ends on 0x5, null is on 0x6 -> then null must also be on 0x7
             // If String ends on 0x7, null is on 0x8 -> then null must also be on 0x9, 0xA, 0xB
             // before the next entry is added.
 
