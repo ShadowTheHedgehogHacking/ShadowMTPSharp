@@ -9,6 +9,8 @@ namespace MTPLibTest
         private string BkLarvaDirectory => Path.GetFullPath("BkLarvaExport");
         private string BkChaosDirectory => Path.GetFullPath("BkChaosExport");
         private string SuperShadowDirectory => Path.GetFullPath("SuperShadowExport");
+        private string ShadowDirectory => Path.GetFullPath("ShadowExport");
+
 
 
         private string InitializeDirectory(string directoryPath)
@@ -52,6 +54,16 @@ namespace MTPLibTest
 
             package.ToDirectory(directory);
 
+            var newPackage = MotionPackage.FromDirectory(directory);
+            Assert.Equal(package, newPackage);
+        }
+
+        [Fact]
+        public void SameAsOriginal_OrderNonAlphabeticalNames_Export() {
+            var package = MotionPackage.FromMtp(Assets.Assets.Shadow());
+            var directory = InitializeDirectory(ShadowDirectory);
+
+            package.ToDirectory(directory);
             var newPackage = MotionPackage.FromDirectory(directory);
             Assert.Equal(package, newPackage);
         }

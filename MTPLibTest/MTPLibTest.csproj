@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Assets\BKCHAOS.MTP" />
     <None Remove="Assets\BKLARVA.MTP" />
+    <None Remove="Assets\SHADOW.MTP" />
     <None Remove="Assets\SUPERSHADOW.MTP" />
   </ItemGroup>
 
@@ -17,6 +18,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\BKLARVA.MTP">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\SHADOW.MTP">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\SUPERSHADOW.MTP">

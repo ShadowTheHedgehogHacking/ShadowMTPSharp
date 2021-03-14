@@ -131,21 +131,25 @@ namespace MTPLib
             header.SwapEndian();
             bytes.AddRange(Struct.GetBytes(ref header));
 
+
+            // TODO: File order is not maintained on a rewrite from original parse! -> Cannot produce 1:1 mapping
+            // However with the 4-byte padding fix this still produces valid/working MTPs
+
             // Write entries
             var dummyAnimationEntry = new AnimationEntry();
             var dummyAnimationEntryBytes = Struct.GetBytes(ref dummyAnimationEntry);
             int[] entryOffsets = Entries.Select(x => AddRange(bytes, dummyAnimationEntryBytes)).ToArray();
 
             // Write file names.
-            int[] fileNameOffsets = Entries.Select(x => AddRange(bytes, String.GetNullTerminatedBytes(String.Win1252Encoder, x.FileName))).ToArray();
-
-            // TODO: ISSUE IDENTIFIED.
-            // End of filenames needs padding
-            // Must pad to next group of 4-bytes.
-            //
-            // If String ends on 0x5, null is on 0x6 -> then null must also be on 0x7
-            // If String ends on 0x7, null is on 0x8 -> then null must also be on 0x9, 0xA, 0xB
-            // before the next entry is added.
+            int[] fileNameOffsets = Entries.Select(x => {
+                int firstRef = AddRange(bytes, String.GetNullTerminatedBytes(String.Win1252Encoder, x.FileName));
+                // Must pad to next group of 4-bytes, otherwise game will fail to parse
+                while (bytes.Count % 4 > 0) {
+                    bytes.Add(0x00);
+                }
+                return firstRef;
+            }
+            ).ToArray();
 
             // Write file data.
             int[] fileDataOffsets = Entries.Select(x => AddRange(bytes, x.FileData)).ToArray();
