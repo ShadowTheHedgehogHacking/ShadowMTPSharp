@@ -6,5 +6,7 @@ namespace MTPLibTest.Assets
     {
         public static byte[] BkChaos() => File.ReadAllBytes("Assets/BKCHAOS.MTP");
         public static byte[] BkLarva() => File.ReadAllBytes("Assets/BKLARVA.MTP");
+        public static byte[] SuperShadow() => File.ReadAllBytes("Assets/SUPERSHADOW.MTP");
+
     }
 }

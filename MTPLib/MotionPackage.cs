@@ -139,6 +139,14 @@ namespace MTPLib
             // Write file names.
             int[] fileNameOffsets = Entries.Select(x => AddRange(bytes, String.GetNullTerminatedBytes(String.Win1252Encoder, x.FileName))).ToArray();
 
+            // TODO: ISSUE IDENTIFIED.
+            // End of filenames needs padding
+            // Must pad to next group of 4-bytes.
+            //
+            // If String ends on 0x6, null is on 0x7 -> then null must also be on 0x8
+            // If String ends on 0x7, null is on 0x8 -> then null must also be on 0x9, 0xA, 0xB
+            // before the next entry is added.
+
             // Write file data.
             int[] fileDataOffsets = Entries.Select(x => AddRange(bytes, x.FileData)).ToArray();
 

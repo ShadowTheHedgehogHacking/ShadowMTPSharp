@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using MTPLib;
 using Xunit;
 
@@ -11,6 +8,8 @@ namespace MTPLibTest
     {
         private string BkLarvaDirectory => Path.GetFullPath("BkLarvaExport");
         private string BkChaosDirectory => Path.GetFullPath("BkChaosExport");
+        private string SuperShadowDirectory => Path.GetFullPath("SuperShadowExport");
+
 
         private string InitializeDirectory(string directoryPath)
         {
@@ -38,6 +37,18 @@ namespace MTPLibTest
         {
             var package = MotionPackage.FromMtp(Assets.Assets.BkLarva());
             var directory = InitializeDirectory(BkLarvaDirectory);
+
+            package.ToDirectory(directory);
+
+            var newPackage = MotionPackage.FromDirectory(directory);
+            Assert.Equal(package, newPackage);
+        }
+
+        [Fact]
+        public void ExportMulti_MissingSomeProperties() {
+            // MTP with multiple MTNs and some MTNs with no associated properties
+            var package = MotionPackage.FromMtp(Assets.Assets.SuperShadow());
+            var directory = InitializeDirectory(SuperShadowDirectory);
 
             package.ToDirectory(directory);
 
